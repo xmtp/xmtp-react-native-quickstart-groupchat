@@ -39,16 +39,15 @@ export const MessageContainer = ({
   };
 
   useEffect(() => {
-    let stream;
     let isMounted = true;
     let timer;
     const fetchMessages = async () => {
       if (conversation && conversation.peerAddress && isFirstLoad.current) {
         setIsLoading(true);
         const initialMessages = await conversation?.messages();
-
+        const orderedMessages = initialMessages.reverse();
         let updatedMessages = [];
-        initialMessages.forEach(message => {
+        orderedMessages.forEach(message => {
           updatedMessages = updateMessages(updatedMessages, message);
         });
 
@@ -69,21 +68,21 @@ export const MessageContainer = ({
     return () => {
       isMounted = false;
       clearTimeout(timer);
-      if (stream) stream.return();
     };
   }, [conversation]);
 
   useEffect(() => {
-    const startMessageStream = async () => {
-      conversation.streamMessages(message => {
-        console.log('Streamed message:', message);
-        setMessages(prevMessages => {
-          return updateMessages(prevMessages, message);
-        });
-      });
+    // Define the callback function to be called for each new message
+    const handleMessage = async message => {
+      console.log('Stream', message.content());
+      setMessages(prevMessages => updateMessages(prevMessages, message));
     };
 
-    startMessageStream();
+    const unsubscribe = conversation.streamMessages(handleMessage);
+    return () => {
+      console.log('Unsubscribing from message stream');
+      // call unsubscribe(); if you want to cancel the stream when the component is unmounted
+    };
   }, []);
 
   useEffect(() => {

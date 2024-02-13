@@ -86,6 +86,7 @@ PODS:
     - hermes-engine/Pre-built (= 0.73.1)
   - hermes-engine/Pre-built (0.73.1)
   - libevent (2.1.12)
+  - LibXMTP (0.4.1-beta2)
   - Logging (1.0.0)
   - MessagePacker (0.4.7)
   - OpenSSL-Universal (1.1.1100)
@@ -1141,17 +1142,16 @@ PODS:
     - GenericJSON (~> 2.0)
     - Logging (~> 1.0.0)
     - secp256k1.swift (~> 0.1)
-  - XMTP (0.7.6-alpha0):
+  - XMTP (0.8.2):
     - Connect-Swift (= 0.3.0)
     - GzipSwift
+    - LibXMTP (= 0.4.1-beta2)
     - web3.swift
-    - XMTPRust (= 0.3.7-beta0)
-  - XMTPReactNative (1.24.1):
+  - XMTPReactNative (1.27.0-beta.7):
     - ExpoModulesCore
     - MessagePacker
     - secp256k1.swift
-    - XMTP (= 0.7.6-alpha0)
-  - XMTPRust (0.3.7-beta0)
+    - XMTP (= 0.8.2)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -1251,6 +1251,7 @@ SPEC REPOS:
     - GenericJSON
     - GzipSwift
     - libevent
+    - LibXMTP
     - Logging
     - MessagePacker
     - OpenSSL-Universal
@@ -1259,7 +1260,6 @@ SPEC REPOS:
     - SwiftProtobuf
     - web3.swift
     - XMTP
-    - XMTPRust
 
 EXTERNAL SOURCES:
   boost:
@@ -1394,6 +1394,7 @@ SPEC CHECKSUMS:
   GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
   hermes-engine: 34df9d5034e90bd9bf1505e1ca198760373935af
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
+  LibXMTP: a9c3d09126ad70443c991f439283dc95224a46ff
   Logging: 9ef4ecb546ad3169398d5a723bc9bea1c46bef26
   MessagePacker: ab2fe250e86ea7aedd1a9ee47a37083edd41fd02
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
@@ -1444,9 +1445,8 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SwiftProtobuf: b02b5075dcf60c9f5f403000b3b0c202a11b6ae1
   web3.swift: 2263d1e12e121b2c42ffb63a5a7beb1acaf33959
-  XMTP: 61788f11954c6f5fdc01ad585c5b0f756f02cb0e
-  XMTPReactNative: 4d076d216715a595a00d1bfc3c2830988481ede1
-  XMTPRust: 8848a2ba761b2c961d666632f2ad27d1082faa93
+  XMTP: b70e7b864e38d430d2b55e813f33eec775ed0f0d
+  XMTPReactNative: a85706a0a82df6f85f6a2b2fc0a673a2d0f79a2e
   Yoga: 4f53dc50008d626fa679c7a1cb4bed898f8c0bde
 
 PODFILE CHECKSUM: e5f95c49da05b9c6ffd3a674da3aef46bf9affc4

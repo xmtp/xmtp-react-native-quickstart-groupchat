@@ -6,6 +6,7 @@ import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import Config from 'react-native-config';
 const myPrivateKey = Config.MY_PRIVATE_KEY;
 const infuraKey = Config.INFURA_KEY;
+console.log('infuraKey', Config);
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({

@@ -44,7 +44,6 @@ export const ListConversations = ({searchTerm, selectConversation}) => {
 
   useEffect(() => {
     let isMounted = true;
-    let stream;
     let timer;
     const fetchAndStreamConversations = async () => {
       setLoading(true);
@@ -80,7 +79,6 @@ export const ListConversations = ({searchTerm, selectConversation}) => {
     return () => {
       isMounted = false;
       clearTimeout(timer);
-      if (stream) stream.return();
     };
   }, []);
 
