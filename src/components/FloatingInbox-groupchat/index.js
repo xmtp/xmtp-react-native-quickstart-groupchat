@@ -3,11 +3,12 @@ import {Client, useXmtp} from '@xmtp/react-native-sdk';
 import {ethers} from 'ethers';
 import {ConversationContainer} from './ConversationContainer';
 import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {GroupChatInfo} from './GroupChatInfo';
 import Config from 'react-native-config';
 const myPrivateKey = Config.MY_PRIVATE_KEY;
 const infuraKey = Config.INFURA_KEY;
-console.log('infuraKey', Config);
-import AsyncStorage from '@react-native-async-storage/async-storage';
+const xmtpEnv = 'dev'; //Config.XMTP_ENV;
 
 const styles = StyleSheet.create({
   uContainer: {
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   logoutBtnContainer: {
-    padding: 10, // adjust as needed
+    padding: 10,
   },
   logoutBtn: {
     position: 'absolute',
@@ -81,10 +82,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export function FloatingInbox({wallet, env, onLogout}) {
+export function FloatingInbox({wallet, onLogout}) {
   const [isOnNetwork, setIsOnNetwork] = useState(false);
   const {client, setClient} = useXmtp();
   const [isConnected, setIsConnected] = useState(false);
+  const [showGroupChatInfo, setShowGroupChatInfo] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -156,9 +158,9 @@ export function FloatingInbox({wallet, env, onLogout}) {
   const createNewWallet = async () => {
     try {
       const clientOptions = {
-        env: env ? env : getEnv(),
+        env: getEnv(),
+        enableAlphaMls: true,
       };
-      console.log('clientOptions', clientOptions);
       const xmtpClient = await Client.createRandom(clientOptions.env);
       setIsConnected(true);
       setSigner(xmtpClient);
@@ -183,10 +185,12 @@ export function FloatingInbox({wallet, env, onLogout}) {
       onLogout();
     }
   };
+  const openConversation = async conversation => {
+    setSelectedConversation(conversation);
+  };
 
   const startFromPrivateKey = async () => {
     try {
-      console.log(myPrivateKey);
       const infuraProvider = new ethers.InfuraProvider('mainnet', infuraKey);
       const signerEthers = new ethers.Wallet(myPrivateKey, infuraProvider);
       setSigner(signerEthers);
@@ -202,9 +206,9 @@ export function FloatingInbox({wallet, env, onLogout}) {
         return;
       }
       const clientOptions = {
-        env: env ? env : getEnv(),
+        env: getEnv(),
+        enableAlphaMls: true,
       };
-
       let address = await getAddress(signer);
 
       let keys = await loadKeyBundle(address);
@@ -222,6 +226,9 @@ export function FloatingInbox({wallet, env, onLogout}) {
     } catch (error) {
       console.error('Error initializing XMTP with keys', error);
     }
+  };
+  const resetSelectedConversation = () => {
+    setSelectedConversation(null);
   };
 
   return (
@@ -241,12 +248,28 @@ export function FloatingInbox({wallet, env, onLogout}) {
                 <Button
                   title="←"
                   onPress={() => {
-                    setSelectedConversation(null);
+                    if (showGroupChatInfo) {
+                      setShowGroupChatInfo(false);
+                    } else {
+                      openConversation(null);
+                    }
                   }}
                   style={styles.backButton}
                 />
               )}
               <Text style={styles.conversationHeaderH4}>Conversations</Text>
+              {isOnNetwork &&
+                selectedConversation &&
+                selectedConversation.version === 'GROUP' &&
+                typeof selectedConversation.memberAddresses === 'function' && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setShowGroupChatInfo(!showGroupChatInfo);
+                    }}
+                    style={styles.cogIconContainer}>
+                    <Text style={styles.cogIcon}>⚙️</Text>
+                  </TouchableOpacity>
+                )}
             </View>
           </View>
         )}
@@ -275,12 +298,26 @@ export function FloatingInbox({wallet, env, onLogout}) {
               />
             </View>
           )}
+
           {isConnected && isOnNetwork && client && (
-            <ConversationContainer
-              client={client}
-              selectedConversation={selectedConversation}
-              setSelectedConversation={setSelectedConversation}
-            />
+            <>
+              {selectedConversation &&
+              selectedConversation.isGroupChat &&
+              typeof selectedConversation.memberAddresses === 'function' &&
+              showGroupChatInfo ? (
+                <GroupChatInfo
+                  selectedConversation={selectedConversation}
+                  resetSelectedConversation={resetSelectedConversation} // Add this line
+                  resetGroupChatInfo={() => setShowGroupChatInfo(false)} // Add this line
+                />
+              ) : (
+                <ConversationContainer
+                  client={client}
+                  selectedConversation={selectedConversation}
+                  setSelectedConversation={openConversation}
+                />
+              )}
+            </>
           )}
         </View>
       </View>
@@ -290,9 +327,7 @@ export function FloatingInbox({wallet, env, onLogout}) {
 
 export const getEnv = () => {
   // "dev" | "production" | "local"
-  return typeof process !== 'undefined' && process.env.REACT_APP_XMTP_ENV
-    ? process.env.REACT_APP_XMTP_ENV
-    : 'production';
+  return typeof process !== 'undefined' && xmtpEnv ? xmtpEnv : 'production';
 };
 
 export const buildLocalStorageKey = walletAddress => {
@@ -301,11 +336,9 @@ export const buildLocalStorageKey = walletAddress => {
 
 export const loadKeyBundle = async address => {
   const keyBundle = await AsyncStorage.getItem(buildLocalStorageKey(address));
-  //console.log(buildLocalStorageKey(address), keyBundle);
   return keyBundle;
 };
 export const storeKeyBundle = async (address, keyBundle) => {
-  //console.log(buildLocalStorageKey(address), keyBundle);
   await AsyncStorage.setItem(buildLocalStorageKey(address), keyBundle);
 };
 export const wipeKeyBundle = async address => {

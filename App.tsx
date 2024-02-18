@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView} from 'react-native';
-import {FloatingInbox} from './src/components/FloatingInbox-text/index.js';
+import {FloatingInbox} from './src/components/FloatingInbox-groupchat/index.js';
 import {XmtpProvider} from '@xmtp/react-native-sdk';
 
 function App() {

@@ -8,7 +8,11 @@ import {
 } from 'react-native';
 import {useXmtp} from '@xmtp/react-native-sdk';
 
-export const ListConversations = ({searchTerm, selectConversation}) => {
+export const ListConversations = ({
+  searchTerm,
+  selectConversation,
+  onConversationFound,
+}) => {
   const [loading, setLoading] = useState(false);
   const [conversations, setConversations] = useState([]);
   const {client} = useXmtp();
@@ -44,14 +48,22 @@ export const ListConversations = ({searchTerm, selectConversation}) => {
 
   useEffect(() => {
     let isMounted = true;
+    let stream;
     let timer;
     const fetchAndStreamConversations = async () => {
       setLoading(true);
-      const allConversations = await client.conversations.list();
-      const sortedConversations = allConversations.sort(
+      const allConversations = []; //await client.conversations.listAll();
+      console.log('All conversations:', allConversations);
+      //const allGroupChats = GroupChat.getAllGroupChats(); // Get all group chats
+      const allGroupChats = await client.conversations.listGroups();
+      /*const sortedConversations = allConversations.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+      );*/
+      //setConversations(sortedConversations);
+      const combined = [...allConversations, ...allGroupChats].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
-      setConversations(sortedConversations);
+      setConversations(combined);
 
       setLoading(false);
       client.conversations.stream(conversation => {
@@ -79,6 +91,7 @@ export const ListConversations = ({searchTerm, selectConversation}) => {
     return () => {
       isMounted = false;
       clearTimeout(timer);
+      if (stream) stream.return();
     };
   }, []);
 
@@ -90,36 +103,52 @@ export const ListConversations = ({searchTerm, selectConversation}) => {
 
   const filteredConversations = conversations.filter(
     conversation =>
-      conversation?.peerAddress
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) &&
-      conversation?.peerAddress !== client.address,
+      conversation.version === 'GROUP' ||
+      (conversation?.peerAddresses?.some(peerAddress =>
+        peerAddress.toLowerCase().includes(searchTerm.toLowerCase()),
+      ) &&
+        !conversation?.peerAddresses?.includes(client.address)),
   );
+
+  useEffect(() => {
+    if (filteredConversations.length > 0) {
+      onConversationFound(true);
+    }
+  }, [filteredConversations, onConversationFound]);
+
   return (
-    <View>
+    <ScrollView ref={bottomOfList}>
       {filteredConversations.map((conversation, index) => (
         <TouchableOpacity
           key={index}
           style={styles.conversationListItem}
           onPress={() => {
+            console.log('Selected conversation:', conversation);
             selectConversation(conversation);
           }}>
-          <ScrollView ref={bottomOfList} style={styles.conversationDetails}>
+          <View style={styles.conversationDetails}>
             <Text style={styles.conversationName}>
-              {conversation.peerAddress.substring(0, 6) +
-                '...' +
-                conversation.peerAddress.substring(
-                  conversation.peerAddress.length - 4,
-                )}
+              {conversation.version === 'GROUP'
+                ? `Group (x${
+                    conversation?.peerAddresses?.length
+                  }) ${conversation?.peerAddresses
+                    ?.map(address => `${address.substring(0, 6)}...`)
+                    .join(', ')}`
+                : `${conversation?.peerAddress?.substring(
+                    0,
+                    6,
+                  )}...${conversation?.peerAddress?.substring(
+                    conversation.peerAddress.length - 4,
+                  )}`}
             </Text>
             <Text style={styles.messagePreview}>...</Text>
-          </ScrollView>
+          </View>
           <Text style={styles.conversationTimestamp}>
             {getRelativeTimeLabel(conversation.createdAt)}
           </Text>
         </TouchableOpacity>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
