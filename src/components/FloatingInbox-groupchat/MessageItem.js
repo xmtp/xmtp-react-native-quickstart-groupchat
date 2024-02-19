@@ -9,6 +9,7 @@ export const MessageItem = ({message, senderAddress}) => {
     const isRegistered = contentTypeID in client.codecRegistry;
     if (!isRegistered) {
       console.log(`Codec not registered for content type: ${contentTypeID}`);
+      //xmtp.org/group_membership_change:1.0
       // Not supported content type
       if (message?.fallback != null) {
         return message?.fallback;

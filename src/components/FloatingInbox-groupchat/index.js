@@ -8,7 +8,7 @@ import {GroupChatInfo} from './GroupChatInfo';
 import Config from 'react-native-config';
 const myPrivateKey = Config.MY_PRIVATE_KEY;
 const infuraKey = Config.INFURA_KEY;
-const xmtpEnv = 'dev'; //Config.XMTP_ENV;
+const xmtpEnv = Config.XMTP_ENV;
 
 const styles = StyleSheet.create({
   uContainer: {
@@ -192,7 +192,9 @@ export function FloatingInbox({wallet, onLogout}) {
   const startFromPrivateKey = async () => {
     try {
       const infuraProvider = new ethers.InfuraProvider('mainnet', infuraKey);
-      const signerEthers = new ethers.Wallet(myPrivateKey, infuraProvider);
+      const addresses = [];
+
+      const signerEthers = new ethers.Wallet(addresses[1], infuraProvider);
       setSigner(signerEthers);
       setIsConnected(true);
     } catch (error) {

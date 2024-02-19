@@ -52,14 +52,9 @@ export const ListConversations = ({
     let timer;
     const fetchAndStreamConversations = async () => {
       setLoading(true);
-      const allConversations = []; //await client.conversations.listAll();
-      console.log('All conversations:', allConversations);
-      //const allGroupChats = GroupChat.getAllGroupChats(); // Get all group chats
-      const allGroupChats = await client.conversations.listGroups();
-      /*const sortedConversations = allConversations.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-      );*/
-      //setConversations(sortedConversations);
+      await client.conversations.syncGroups();
+      const allConversations = await client.conversations.listAll();
+      const allGroupChats = []; //await client.conversations.listGroups();
       const combined = [...allConversations, ...allGroupChats].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
@@ -123,7 +118,6 @@ export const ListConversations = ({
           key={index}
           style={styles.conversationListItem}
           onPress={() => {
-            console.log('Selected conversation:', conversation);
             selectConversation(conversation);
           }}>
           <View style={styles.conversationDetails}>
