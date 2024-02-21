@@ -2,7 +2,7 @@
 
 This tutorial will guide you through implementing group chat functionality in your XMTP inbox, covering creation, message sending, streaming, and member management.
 
-:::caution
+:::⚠️
 
 This project is in **Alpha** status and ready for you to experiment with.
 
@@ -116,11 +116,7 @@ const createGroupChat = participants => {
 ### Loading all group chats
 
 :::caution
-Remember to sync group chats to ensure you have the latest data.
-:::
-
-:::tip
-Use `client.conversations.listGroups()` to easily list all group chats.
+Remember to `syncGroups()` chats to ensure you have the latest data.
 :::
 
 To load conversations including group chats, you can modify the ListConversations component to fetch and display both direct and group conversations. Assuming your backend or SDK supports a .list() method that can filter for group chats, you would integrate it as follows:
@@ -129,6 +125,8 @@ To load conversations including group chats, you can modify the ListConversation
 useEffect(() => {
   const fetchConversations = async () => {
     setLoading(true);
+    //First fetch new groups from the network
+    await client.conversations.syncGroups();
     const allGroups = await client.conversations.listGroups();
     setConversations(allGroups);
     setLoading(false);
@@ -181,7 +179,12 @@ Adding a Member
 ```jsx
 const addMemberToGroupChat = memberAddress => {
   if (selectedConversation.version === 'GROUP') {
+    //Update the member
     selectedConversation.addMembers([memberAddress]);
+    //First fetch latest data from the network
+    await selectedConversation.sync();
+    //Update state
+    setMembers(await selectedConversation.memberAddresses());
   }
 };
 ```
@@ -191,9 +194,12 @@ Removing a Member
 ```jsx
 const removeMemberFromGroupChat = memberAddress => {
   if (selectedConversation.version === 'GROUP') {
+    //Update the member
     selectedConversation.removeMembers([memberAddress]);
+    //First fetch latest data from the network
+    await selectedConversation.sync();
     //Update state
-    setMembers(Array.from(selectedConversation.memberAddresses()));
+    setMembers(await selectedConversation.memberAddresses());
   }
 };
 ```
@@ -203,7 +209,7 @@ Get member addresses
 ```jsx
 const getGroupMemberAddresses = () => {
   if (selectedConversation.version === 'GROUP') {
-    const memberAddresses = Array.from(selectedConversation.memberAddresses());
+    const memberAddresses = await selectedConversation.memberAddresses();
     console.log('Group Member Addresses:', memberAddresses);
     return memberAddresses;
   } else {
