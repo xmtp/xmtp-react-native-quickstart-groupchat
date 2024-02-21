@@ -1,8 +1,8 @@
-# Group Chat Tutorial for XMTP
+# Group chat tutorial with React Native
 
 This tutorial will guide you through implementing group chat functionality in your XMTP inbox, covering creation, message sending, streaming, and member management.
 
-:::⚠️
+:::caution
 
 This project is in **Alpha** status and ready for you to experiment with.
 
@@ -12,9 +12,14 @@ However, we do not recommend using **Alpha** software in production apps. Softwa
 
 <div class=" rabbit  p-5 ">
 
-📥 <b>Need a quick reference?</b> Check out this GitHub repo: <a href="https://github.com/fabriguespe/xmtp-rn-group-chat">group-chat</a>
+📥 <b>Need a quick reference?</b> Check out this GitHub repo: <a href="https://github.com/fabriguespe/xmtp-rn-groupchats">group-chat</a>
 
 </div>
+
+<details>
+<summary>
+
+<h3>Installation Steps</h3></summary>
 
 ### Prerequisites
 
@@ -23,11 +28,7 @@ However, we do not recommend using **Alpha** software in production apps. Softwa
 - React Native CLI
 - Xcode (for iOS)
 
-<details>
-<summary>
-<h3>Installation Steps</h3></summary>
-
-### 1. Initialize React Native Project
+### 1. Initialize react native project
 
 If you haven't already created a React Native project, start by initializing one:
 
@@ -35,7 +36,7 @@ If you haven't already created a React Native project, start by initializing one
 npx react-native init xmtprn
 ```
 
-### 2. Install Expo Modules
+### 2. Install expo modules
 
 Install the latest Expo modules:
 
@@ -43,7 +44,7 @@ Install the latest Expo modules:
 npx install-expo-modules@latest
 ```
 
-### 3. Install XMTP React Native SDK
+### 3. Install XMTP react native sdk
 
 Install the XMTP React Native SDK using npm:
 
@@ -51,7 +52,7 @@ Install the XMTP React Native SDK using npm:
 npm install @xmtp/react-native-sdk
 ```
 
-### 4. Update Podfile for iOS
+### 4. Update podfile for ios
 
 Update the Podfile to set the minimum iOS platform. Open the `Podfile` in your iOS directory and modify the platform line:
 
@@ -59,11 +60,11 @@ Update the Podfile to set the minimum iOS platform. Open the `Podfile` in your i
 platform :ios, '16.0'
 ```
 
-### 5. Update Xcode Target
+### 5. Update xcode target
 
 Ensure your Xcode project's target is updated to iOS 16.0 or higher.
 
-### 6. Add Babel Plugin
+### 6. Add Babel plugin
 
 Install the Babel plugin required for the XMTP SDK:
 
@@ -71,7 +72,7 @@ Install the Babel plugin required for the XMTP SDK:
 npm add @babel/plugin-proposal-export-namespace-from
 ```
 
-### 7. Configure Babel
+### 7. Configure babel
 
 Update your Babel configuration. Open your `babel.config.js` and add the plugin:
 
@@ -82,7 +83,7 @@ module.exports = {
 };
 ```
 
-### 8. Install iOS Pods
+### 8. Install ios pods
 
 Navigate to the iOS directory and install the necessary pods:
 
@@ -90,7 +91,7 @@ Navigate to the iOS directory and install the necessary pods:
 cd ios && pod install && cd ..
 ```
 
-### 9. Start the Application
+### 9. Start the application
 
 Finally, start your React Native application:
 
@@ -102,7 +103,7 @@ npm run ios
 
 ## Tutorial
 
-### Creating a Group Chat
+### Creating a group chat
 
 To create a group chat, you can use the GroupChat class. When a user initiates a new group chat, you should collect the participants' addresses and create a new instance of GroupChat.
 
@@ -127,6 +128,7 @@ useEffect(() => {
     setLoading(true);
     //First fetch new groups from the network
     await client.conversations.syncGroups();
+    //Get groups from local DB
     const allGroups = await client.conversations.listGroups();
     setConversations(allGroups);
     setLoading(false);
@@ -136,7 +138,7 @@ useEffect(() => {
 }, []);
 ```
 
-### Sending a Message in a Group Chat
+### Sending a message in a group chat
 
 To send a message in a group chat, you can use the sendMessage method of the GroupChat class. Ensure you check if the current conversation is a group chat before sending the message.
 
@@ -154,7 +156,7 @@ const handleSendMessage = async newMessage => {
 };
 ```
 
-### Creating a Stream from a Group Chat
+### Listening for new messages
 
 To stream messages from a group chat, you can use the streamMessages method. This method should be called when the group chat is selected to ensure real-time message updates.
 
@@ -171,7 +173,11 @@ useEffect(() => {
 }, [conversation]);
 ```
 
-### Editing Group Chat Members
+### Manage group chat members
+
+:::caution
+Remember to `sync()` chats to ensure you have the latest data.
+:::
 
 To add or remove members from a group chat, you can use the `addMembers` and `removeMember` methods provided by the GroupChat class.
 Adding a Member
@@ -209,6 +215,9 @@ Get member addresses
 ```jsx
 const getGroupMemberAddresses = () => {
   if (selectedConversation.version === 'GROUP') {
+    //First fetch latest data from the network
+    await selectedConversation.sync();
+    //Get member addresses
     const memberAddresses = await selectedConversation.memberAddresses();
     console.log('Group Member Addresses:', memberAddresses);
     return memberAddresses;
@@ -219,6 +228,6 @@ const getGroupMemberAddresses = () => {
 };
 ```
 
-## Note on Conversations and Messages in Group Chats
+## Note on conversations and messages in group chats
 
-It's important to note that all the features and methods described in the Conversations and Messages documentation are fully applicable to group chats as well. This includes starting new conversations, checking if an address is on the network, sending messages, and listing existing conversations. XMTP design ensures that you can manage group chats with the same ease and flexibility as one-on-one conversations.
+It's important to note that all the features and methods described in the [Conversations](/docs/build/conversations.md) and [Messages](/docs/build/messages/messages.md) documentation are fully applicable to group chats as well. This includes starting new conversations, checking if an address is on the network, sending messages, and listing existing conversations. XMTP design ensures that you can manage group chats with the same ease and flexibility as one-on-one conversations.
