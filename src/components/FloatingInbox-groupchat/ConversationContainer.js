@@ -184,6 +184,7 @@ export const ConversationContainer = ({
 
     if (selectedAddresses.length > 0) {
       setGroupChatAddresses(selectedAddresses);
+      //This is a place holder that went the message is sent the real group will be created
       setSelectedConversation({
         groupChatAddresses: selectedAddresses,
         version: 'GROUP',

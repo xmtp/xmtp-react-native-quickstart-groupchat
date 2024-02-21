@@ -86,7 +86,7 @@ PODS:
     - hermes-engine/Pre-built (= 0.73.1)
   - hermes-engine/Pre-built (0.73.1)
   - libevent (2.1.12)
-  - LibXMTP (0.4.2-beta1)
+  - LibXMTP (0.4.2-beta3)
   - Logging (1.0.0)
   - MessagePacker (0.4.7)
   - OpenSSL-Universal (1.1.1100)
@@ -1132,7 +1132,7 @@ PODS:
     - React-jsi (= 0.73.1)
     - React-logger (= 0.73.1)
     - React-perflogger (= 0.73.1)
-  - RNCAsyncStorage (1.21.0):
+  - RNCAsyncStorage (1.22.1):
     - React-Core
   - secp256k1.swift (0.1.4)
   - SocketRocket (0.6.1)
@@ -1142,16 +1142,16 @@ PODS:
     - GenericJSON (~> 2.0)
     - Logging (~> 1.0.0)
     - secp256k1.swift (~> 0.1)
-  - XMTP (0.8.7):
+  - XMTP (0.8.10):
     - Connect-Swift (= 0.3.0)
     - GzipSwift
-    - LibXMTP (= 0.4.2-beta1)
+    - LibXMTP (= 0.4.2-beta3)
     - web3.swift
-  - XMTPReactNative (1.27.0-beta.16):
+  - XMTPReactNative (1.28.0-beta.4):
     - ExpoModulesCore
     - MessagePacker
     - secp256k1.swift
-    - XMTP (= 0.8.7)
+    - XMTP (= 0.8.10)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -1394,7 +1394,7 @@ SPEC CHECKSUMS:
   GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
   hermes-engine: 34df9d5034e90bd9bf1505e1ca198760373935af
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  LibXMTP: 026f2fec3c88b24e92f21895b29a12817fa54779
+  LibXMTP: d6e1d416c7138b3593dfd7a6f07c8e88537c00eb
   Logging: 9ef4ecb546ad3169398d5a723bc9bea1c46bef26
   MessagePacker: ab2fe250e86ea7aedd1a9ee47a37083edd41fd02
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
@@ -1440,13 +1440,13 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 93a4c84e46a85c3fc9678abd4f6923b785226ea7
   React-utils: debda2c206770ee2785bdebb7f16d8db9f18838a
   ReactCommon: ddb128564dcbfa0287d3d1a2d10f8c7457c971f6
-  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
+  RNCAsyncStorage: 7deab901e27d1f989a83e8be6ce91b673772c848
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SwiftProtobuf: b02b5075dcf60c9f5f403000b3b0c202a11b6ae1
   web3.swift: 2263d1e12e121b2c42ffb63a5a7beb1acaf33959
-  XMTP: 35a0ca7e90bbabf4c49a862ae7750626324f55bf
-  XMTPReactNative: 4fb753f8ce7f7c151072d2723605a318b243f24e
+  XMTP: 2c9f62b75b68e28ce91b67a7fb56ca71b7e22e87
+  XMTPReactNative: 5c45cdd2a1a9ab0d7f3ff838d02e4e85ae15688c
   Yoga: 4f53dc50008d626fa679c7a1cb4bed898f8c0bde
 
 PODFILE CHECKSUM: e5f95c49da05b9c6ffd3a674da3aef46bf9affc4

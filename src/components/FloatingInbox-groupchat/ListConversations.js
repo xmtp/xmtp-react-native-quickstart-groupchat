@@ -53,15 +53,21 @@ export const ListConversations = ({
     const fetchAndStreamConversations = async () => {
       setLoading(true);
       await client.conversations.syncGroups();
-      const allConversations = await client.conversations.listAll();
-      const allGroupChats = []; //await client.conversations.listGroups();
-      const combined = [...allConversations, ...allGroupChats].sort(
+      //Focusing only in group chats for now
+      //let allConversations = await client.conversations.listAll();
+      let allGroups = await client.conversations.listGroups();
+      console.log(
+        'allConversations',
+        // allConversations.length,
+        allGroups.length,
+      );
+      const combined = [...allGroups /* ...allConversations*/].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
       setConversations(combined);
 
       setLoading(false);
-      client.conversations.stream(conversation => {
+      client.conversations.streamAll(conversation => {
         console.log('Streamed conversation:', conversation);
         if (isMounted) {
           setConversations(prevConversations => {

@@ -34,7 +34,9 @@ export const MessageInput = ({onSendMessage}) => {
         onChangeText={handleInputChange}
         placeholder="Type your message..."
       />
-      <Button onPress={handleSend} title="Send" />
+      <View style={{alignSelf: 'center'}}>
+        <Button onPress={handleSend} title="Send" />
+      </View>
     </View>
   );
 };

@@ -50,6 +50,7 @@ export const MessageContainer = ({
         setIsLoading(true);
         await conversation.sync();
         const initialMessages = await conversation?.messages();
+        console.log(initialMessages.length);
         const orderedMessages = initialMessages.reverse();
         let updatedMessages = [];
         orderedMessages.forEach(message => {
@@ -77,9 +78,9 @@ export const MessageContainer = ({
   }, [conversation]);
 
   useEffect(() => {
-    const startMessageGroupStream = async () => {
-      console.log('Stream started');
-
+    const startMessageStream = async () => {
+      console.log('Stream started', conversation.id);
+      await conversation.sync();
       await conversation.streamGroupMessages(message => {
         console.log('Streamed g message:', message.content());
         setMessages(prevMessages => {
@@ -88,17 +89,7 @@ export const MessageContainer = ({
       });
     };
 
-    const startMessageStream = async () => {
-      await conversation.streamMessages(message => {
-        console.log('Streamed message:', message);
-        setMessages(prevMessages => {
-          return updateMessages(prevMessages, message);
-        });
-      });
-    };
-    if (typeof conversation.streamMessages === 'function') startMessageStream();
-    if (typeof conversation.streamGroupMessages === 'function')
-      startMessageGroupStream();
+    startMessageStream();
   }, [conversation]);
 
   useEffect(() => {
@@ -121,7 +112,6 @@ export const MessageContainer = ({
       await conversation.send(newMessage);
       await conversation.sync();
     } else if (conversation && conversation.version === 'GROUP') {
-      console.log('groupChatAddresses', groupChatAddresses);
       const minimumAddresses = 2;
       const randomQuantity = Math.max(
         minimumAddresses,
@@ -144,30 +134,32 @@ export const MessageContainer = ({
           const canGroupMessage = await client.canGroupMessage([
             candidateAddress,
           ]);
-          console.log(candidateAddress, canGroupMessage, candidateAddress);
+          console.log(candidateAddress, '->cangroup:', canGroupMessage);
           if (canMessage && canGroupMessage) {
             selectedAddresses.push(candidateAddress);
           }
         }
       }
-      console.log(selectedAddresses);
-      const canMessageV3 = await client.canGroupMessage(selectedAddresses);
+      const canGroupMessage = await client.canGroupMessage(selectedAddresses);
       console.log(
         'Selected addresses for group chat:',
         selectedAddresses,
-        canMessageV3,
+        ', canGroupMessage:',
+        canGroupMessage,
       );
-      if (canMessageV3) {
+      if (canGroupMessage) {
         const groupChat = await client.conversations.newGroup(
           selectedAddresses,
         );
         selectConversation(groupChat);
+        console.log('send', newMessage);
         await groupChat.send(newMessage);
         await groupChat.sync();
       } else {
         console.log('No group chat created');
       }
     } else if (conversation && conversation.peerAddress) {
+      console.log('send', newMessage);
       await conversation.send(newMessage);
     } else if (conversation) {
       const conv = await client.conversations.newConversation(conversation);
