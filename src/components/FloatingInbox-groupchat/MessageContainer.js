@@ -88,8 +88,14 @@ export const MessageContainer = ({
         });
       });
     };
-
-    startMessageStream();
+    if (
+      conversation &&
+      conversation.version === 'GROUP' &&
+      conversation.peerAddresses
+    ) {
+      console.log(conversation);
+      startMessageStream();
+    }
   }, [conversation]);
 
   useEffect(() => {
@@ -108,10 +114,12 @@ export const MessageContainer = ({
       conversation.version === 'GROUP' &&
       conversation.peerAddresses
     ) {
+      console.log('entra1');
       await conversation.sync();
       await conversation.send(newMessage);
       await conversation.sync();
     } else if (conversation && conversation.version === 'GROUP') {
+      console.log('entra2');
       const minimumAddresses = 2;
       const randomQuantity = Math.max(
         minimumAddresses,
@@ -151,10 +159,11 @@ export const MessageContainer = ({
         const groupChat = await client.conversations.newGroup(
           selectedAddresses,
         );
-        selectConversation(groupChat);
-        console.log('send', newMessage);
+        console.log('groupChat', groupChat.id);
+        console.log('send', groupChat);
         await groupChat.send(newMessage);
         await groupChat.sync();
+        selectConversation(groupChat);
       } else {
         console.log('No group chat created');
       }
