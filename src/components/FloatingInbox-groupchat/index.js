@@ -192,17 +192,8 @@ export function FloatingInbox({wallet, onLogout}) {
   const startFromPrivateKey = async () => {
     try {
       const infuraProvider = new ethers.InfuraProvider('mainnet', infuraKey);
-      const addresses = [
-        '0x67633be8c32db5414951db4a9ea9734b1214f8f5ca15d6b16818c0b4ee864653',
-        '0xdc5aa0df09080c5c3de44f3e4e798b7076caac3e345c936b80925879841f172a',
-        '0x424bfa2d712d7ef6012422e1b9e60f48ca3dbdb7695362f3b967a860096a52b2',
-        '0x8d2e889a13d2acdfbfe9ecc220f386d6f6c059665e1fcaf138fd131a7da0b118',
-        '0x7096b1d7ff04ae62b783c323bc81058f6811ff54c2ae84509663d03f51dc904d',
-        '0x662ea43a87804e0a8940456e78da6e5ab03cf1d5efe7da12c03e496802e5f79b',
-        '0xdc64190bd81017018020e46c1395a8b718a6d2ddefd9400f9a8ca743c8cd6b29',
-      ];
 
-      const signerEthers = new ethers.Wallet(addresses[0], infuraProvider);
+      const signerEthers = new ethers.Wallet(myPrivateKey, infuraProvider);
       setSigner(signerEthers);
       setIsConnected(true);
     } catch (error) {

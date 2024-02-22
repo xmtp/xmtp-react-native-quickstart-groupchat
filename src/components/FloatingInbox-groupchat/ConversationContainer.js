@@ -168,14 +168,7 @@ export const ConversationContainer = ({
   }
 
   const [groupChatAddresses, setGroupChatAddresses] = useState([]);
-  const [foundAddresses, setFoundAddresses] = useState([
-    {address: '0x47631D10e955B7aA180f99ba36Ddf423B8B5BE46', isSelected: true},
-    {address: '0x6052BF7F4d1dBe392a7DE7bA8fa2d5e13360Bb01', isSelected: true},
-    {address: '0x96CEc7CDB5cF9Da5d2538a9e255ECA62Db1aA7C0', isSelected: true},
-    {address: '0x86F335C22D931fD910DAaA7856e6a5b3eC65532B', isSelected: true},
-    {address: '0x154c93F30aC2BA8A8fdA3A695aDD01fD95d59144', isSelected: true},
-    {address: '0x63DC899F75af394461e019e884f9052b73A5967E', isSelected: true},
-  ]);
+  const [foundAddresses, setFoundAddresses] = useState([]);
 
   const createGroupChat = () => {
     const selectedAddresses = foundAddresses
