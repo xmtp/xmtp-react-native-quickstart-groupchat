@@ -187,8 +187,6 @@ Retrieve all existing group chat conversations associated with the current XMTP 
 <TabItem value="rn" label="React Native" attributes={{className: "rn_tab "}}>
 
 ```jsx
-//First fetch new data from the network
-await client.conversations.syncGroups();
 //Get the updated group list
 const groups = await client.conversations.listGroups();
 ```

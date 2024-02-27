@@ -48,7 +48,6 @@ export const MessageContainer = ({
         isFirstLoad.current
       ) {
         setIsLoading(true);
-        await conversation.sync();
         const initialMessages = await conversation?.messages();
         console.log(initialMessages.length);
         const orderedMessages = initialMessages.reverse();
@@ -80,7 +79,6 @@ export const MessageContainer = ({
   useEffect(() => {
     const startMessageStream = async () => {
       console.log('Stream started', conversation.id);
-      await conversation.sync();
       await conversation.streamGroupMessages(message => {
         console.log('Streamed g message:', message.content());
         setMessages(prevMessages => {
@@ -114,8 +112,6 @@ export const MessageContainer = ({
       conversation.version === 'GROUP' &&
       conversation.peerAddresses
     ) {
-      console.log('entra1');
-      await conversation.sync();
       await conversation.send(newMessage);
       await conversation.sync();
     } else if (conversation && conversation.version === 'GROUP') {

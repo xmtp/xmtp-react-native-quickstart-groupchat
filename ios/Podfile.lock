@@ -5,9 +5,17 @@ PODS:
   - Connect-Swift (0.3.0):
     - SwiftProtobuf (~> 1.20.3)
   - DoubleConversion (1.1.6)
-  - Expo (50.0.0-preview.11):
+  - EXConstants (0.0.1-canary-20240222-c729a13):
     - ExpoModulesCore
-  - ExpoModulesCore (1.11.6):
+  - EXFont (0.0.1-canary-20240222-c729a13):
+    - ExpoModulesCore
+  - Expo (50.0.0-canary-20240222-c729a13):
+    - ExpoModulesCore
+  - ExpoFileSystem (0.0.1-canary-20240222-c729a13):
+    - ExpoModulesCore
+  - ExpoKeepAwake (0.0.1-canary-20240222-c729a13):
+    - ExpoModulesCore
+  - ExpoModulesCore (0.0.1-canary-20240222-c729a13):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1132,7 +1140,7 @@ PODS:
     - React-jsi (= 0.73.1)
     - React-logger (= 0.73.1)
     - React-perflogger (= 0.73.1)
-  - RNCAsyncStorage (1.22.1):
+  - RNCAsyncStorage (1.22.2):
     - React-Core
   - secp256k1.swift (0.1.4)
   - SocketRocket (0.6.1)
@@ -1147,7 +1155,7 @@ PODS:
     - GzipSwift
     - LibXMTP (= 0.4.2-beta3)
     - web3.swift
-  - XMTPReactNative (1.28.0-beta.5):
+  - XMTPReactNative (1.28.0-beta.7):
     - ExpoModulesCore
     - MessagePacker
     - secp256k1.swift
@@ -1157,7 +1165,11 @@ PODS:
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXFont (from `../node_modules/expo-font/ios`)
   - Expo (from `../node_modules/expo`)
+  - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
+  - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -1266,8 +1278,16 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EXConstants:
+    :path: "../node_modules/expo-constants/ios"
+  EXFont:
+    :path: "../node_modules/expo-font/ios"
   Expo:
     :path: "../node_modules/expo"
+  ExpoFileSystem:
+    :path: "../node_modules/expo-file-system/ios"
+  ExpoKeepAwake:
+    :path: "../node_modules/expo-keep-awake/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
   FBLazyVector:
@@ -1376,8 +1396,12 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   Connect-Swift: d38eedc1907d440314f8d26d5a038a00cbb0f6f1
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
-  Expo: 48389448b355b109f9695edd238ad7de8d610db0
-  ExpoModulesCore: 8a1022f8eb4012e69223abf56d2b8db803fca76f
+  EXConstants: 728831f2611efd3e0b298ec85eb40f7bb812ddf1
+  EXFont: 5899ae4f913e7d5499d63562fb21aec5fa46aac3
+  Expo: 34c710bc48ba04e55aec95a8e5a343ccd1b9406a
+  ExpoFileSystem: 095aaf56b58b166ad95a534d92718f29e74d0d7a
+  ExpoKeepAwake: 63ba4fd29bd1f123abc03c19f0f9f4a1710d7f92
+  ExpoModulesCore: b8cbccf5c4d749d1fa2c05a280cace5ad89ecebc
   FBLazyVector: 2296bacb2fa157a43991048b0a9d71c1c8b65083
   FBReactNativeSpec: df0ebe69acd14ce0be0269cf75b6e338a727259b
   Flipper: c7a0093234c4bdd456e363f2f19b2e4b27652d44
@@ -1440,13 +1464,13 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 93a4c84e46a85c3fc9678abd4f6923b785226ea7
   React-utils: debda2c206770ee2785bdebb7f16d8db9f18838a
   ReactCommon: ddb128564dcbfa0287d3d1a2d10f8c7457c971f6
-  RNCAsyncStorage: 7deab901e27d1f989a83e8be6ce91b673772c848
+  RNCAsyncStorage: 014a78b2cc8cc107c9e92ee428dc0c1ac3223416
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SwiftProtobuf: b02b5075dcf60c9f5f403000b3b0c202a11b6ae1
   web3.swift: 2263d1e12e121b2c42ffb63a5a7beb1acaf33959
   XMTP: 0424f5521008373eaa0a8cdba9d4244ba13700f2
-  XMTPReactNative: fe81281653d19f3c4bcbd8e8b9700813998dda53
+  XMTPReactNative: 399f7efe359813ece011e8467e5361e4881308ee
   Yoga: 4f53dc50008d626fa679c7a1cb4bed898f8c0bde
 
 PODFILE CHECKSUM: e5f95c49da05b9c6ffd3a674da3aef46bf9affc4

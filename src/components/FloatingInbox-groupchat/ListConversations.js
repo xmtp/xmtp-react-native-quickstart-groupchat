@@ -52,9 +52,8 @@ export const ListConversations = ({
     let timer;
     const fetchAndStreamConversations = async () => {
       setLoading(true);
-      //First fetch new groups from the network
-      await client.conversations.syncGroups();
       //Focusing only in group chats for now
+
       //let allConversations = await client.conversations.listAll();
       let allGroups = await client.conversations.listGroups();
       console.log(

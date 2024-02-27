@@ -65,7 +65,6 @@ export const GroupChatInfo = ({
         {
           text: 'OK',
           onPress: async () => {
-            await selectedConversation.sync();
             await selectedConversation.removeMember([participant]);
             setMembers(members.filter(member => member !== participant));
           },
@@ -76,7 +75,6 @@ export const GroupChatInfo = ({
 
   useEffect(() => {
     const fetchMembers = async () => {
-      await selectedConversation.sync(); // Sync the group
       const members = await selectedConversation.memberAddresses(); // Fetch member addresses
       console.log('Members:', members);
       setMembers(members.filter(member => member !== client.address)); // Update state excluding the current client's address
@@ -97,7 +95,6 @@ export const GroupChatInfo = ({
         {
           text: 'OK',
           onPress: async () => {
-            await selectedConversation.sync();
             await selectedConversation.removeMember(client.address);
             setMembers(Array.from(selectedConversation.memberAddresses()));
             resetSelectedConversation(); // Add this line
@@ -120,9 +117,7 @@ export const GroupChatInfo = ({
         {
           text: 'OK',
           onPress: async () => {
-            await selectedConversation.sync();
             await selectedConversation.addMembers([newParticipant]);
-            await selectedConversation.sync();
             const updatedMembers = await selectedConversation.memberAddresses();
             setMembers(updatedMembers);
             setNewParticipant(''); // Clear the input
