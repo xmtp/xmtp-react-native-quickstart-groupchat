@@ -89,7 +89,7 @@ npm run ios
 
 ## Concepts
 
-Head to our docs to understand XMTP's concepts
+Head to our docs to understand XMTP group chat concepts
 
 - [Creating a group chat](https://xmtp.org/docs/build/group-chat)
 - [Send a message in a group chat](https://xmtp.org/docs/build/group-chat)
