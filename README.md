@@ -200,9 +200,7 @@ useEffect(() => {
 
 ### Manage group chat members
 
-:::caution
-Remember to `sync()` chats to ensure you have the latest data.
-:::
+> :warning: Remember to `sync()` chats to ensure you have the latest data.
 
 To add or remove members from a group chat, you can use the `addMembers` and `removeMember` methods provided by the GroupChat class.
 Adding a Member
