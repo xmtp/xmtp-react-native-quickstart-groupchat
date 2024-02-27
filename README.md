@@ -101,9 +101,21 @@ npm run ios
 
 </details>
 
-## Tutorial
+## Concepts
 
----
+Head to our docs to understand XMTP's concepts
+
+- [Creating a group chat](https://xmtp.org/docs/build/group-chat)
+- [Send a message in a group chat](https://xmtp.org/docs/build/group-chat)
+- [Synchronizing group conversations](https://xmtp.org/docs/build/group-chat)
+- [List group chat conversations](https://xmtp.org/docs/build/group-chat)
+- [Check if a group chat is active](https://xmtp.org/docs/build/group-chat)
+- [Synchronizing group details and messages](https://xmtp.org/docs/build/group-chat)
+- [Manage group chat members](https://xmtp.org/docs/build/group-chat)
+- [Listen for new messages and updates](https://xmtp.org/docs/build/group-chat)
+- [Listen for new group chats](https://xmtp.org/docs/build/group-chat)
+
+## Tutorial
 
 ### Creating a group chat
 
@@ -128,8 +140,6 @@ To load conversations including group chats, you can modify the ListConversation
 useEffect(() => {
   const fetchConversations = async () => {
     setLoading(true);
-    //First fetch new groups from the network
-    await client.conversations.syncGroups();
     //Get groups from local DB
     const allGroups = await client.conversations.listGroups();
     setConversations(allGroups);
@@ -219,8 +229,6 @@ const addMemberToGroupChat = memberAddress => {
   if (selectedConversation.version === 'GROUP') {
     //Update the member
     selectedConversation.addMembers([memberAddress]);
-    //First fetch latest data from the network
-    await selectedConversation.sync();
     //Update state
     setMembers(await selectedConversation.memberAddresses());
   }
@@ -234,8 +242,6 @@ const removeMemberFromGroupChat = memberAddress => {
   if (selectedConversation.version === 'GROUP') {
     //Update the member
     selectedConversation.removeMembers([memberAddress]);
-    //First fetch latest data from the network
-    await selectedConversation.sync();
     //Update state
     setMembers(await selectedConversation.memberAddresses());
   }
@@ -247,8 +253,6 @@ Get member addresses
 ```jsx
 const getGroupMemberAddresses = () => {
   if (selectedConversation.version === 'GROUP') {
-    //First fetch latest data from the network
-    await selectedConversation.sync();
     //Get member addresses
     const memberAddresses = await selectedConversation.memberAddresses();
     console.log('Group Member Addresses:', memberAddresses);
@@ -259,7 +263,3 @@ const getGroupMemberAddresses = () => {
   }
 };
 ```
-
-## Note on conversations and messages in group chats
-
-It's important to note that all the features and methods described in the [Conversations](/docs/build/conversations.md) and [Messages](/docs/build/messages/messages.md) documentation are fully applicable to group chats as well. This includes starting new conversations, checking if an address is on the network, sending messages, and listing existing conversations. XMTP design ensures that you can manage group chats with the same ease and flexibility as one-on-one conversations.
