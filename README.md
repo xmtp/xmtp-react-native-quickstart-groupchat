@@ -247,4 +247,4 @@ const getGroupMemberAddresses = () => {
 };
 ```
 
-For more information, head to our [Docs](https://xmtp.org/docs/build/group-chat)
+_For additional details and guidance, please visit our [Documentation](https://xmtp.org/docs/build/group-chat)._
