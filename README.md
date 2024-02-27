@@ -2,20 +2,6 @@
 
 This tutorial will guide you through implementing group chat functionality in your XMTP inbox, covering creation, message sending, streaming, and member management.
 
-:::caution
-
-This project is in **Alpha** status and ready for you to experiment with.
-
-However, we do not recommend using **Alpha** software in production apps. Software in this status is likely to change based on feedback.
-
-:::
-
-<div class=" rabbit  p-5 ">
-
-📥 <b>Need a quick reference?</b> Check out this GitHub repo: <a href="https://github.com/fabriguespe/xmtp-rn-groupchats">group-chat</a>
-
-</div>
-
 <details>
 <summary>
 
@@ -130,9 +116,7 @@ const createGroupChat = participants => {
 
 ### Loading all group chats
 
-:::caution
-Remember to `syncGroups()` chats to ensure you have the latest data.
-:::
+> :warning: Remember to `syncGroups()` chats to ensure you have the latest data.
 
 To load conversations including group chats, you can modify the ListConversations component to fetch and display both direct and group conversations. Assuming your backend or SDK supports a .list() method that can filter for group chats, you would integrate it as follows:
 
@@ -172,9 +156,8 @@ const handleSendMessage = async newMessage => {
 
 Here's a simplified example of how you might use `group.messages()` to load and display messages from a group chat:
 
-:::caution Group chats are currently per installation
-As of now, group chats in XMTP are specific to each installation. This means that while you can access your group chat conversations across different devices, the historical messages within those chats might not automatically appear. Currently, each group chat's message history is tied to the device where it was initiated. As a result, there is no automatic syncing of message history across devices. When you sign in on a new device, you will see existing group chat conversations but will only receive new messages from that point forward. We are actively working on enhancing this feature to improve your experience with group conversations.
-:::
+> :warning: Group chats are currently per installation
+> As of now, group chats in XMTP are specific to each installation. This means that while you can access your group chat conversations across different devices, the historical messages within those chats might not automatically appear. Currently, each group chat's message history is tied to the device where it was initiated. As a result, there is no automatic syncing of message history across devices. When you sign in on a new device, you will see existing group chat conversations but will only receive new messages from that point forward. We are actively working on enhancing this feature to improve your experience with group conversations.
 
 ```jsx
 useEffect(() => {
@@ -263,3 +246,5 @@ const getGroupMemberAddresses = () => {
   }
 };
 ```
+
+For more information, head to our [Docs](https://xmtp.org/docs/build/group-chat)
