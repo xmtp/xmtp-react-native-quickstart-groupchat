@@ -60,6 +60,7 @@ export const ListConversations = ({
         'allConversations',
         // allConversations.length,
         allGroups.length,
+        allGroups[0].id,
       );
       const combined = [...allGroups /* ...allConversations*/].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt),

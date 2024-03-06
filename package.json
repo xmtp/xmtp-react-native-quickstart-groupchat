@@ -7,12 +7,13 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "updatebeta": "rm -rf ios/build ios/Pods ios/Podfile.lock && npx pod-install"
   },
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@react-native-async-storage/async-storage": "^1.21.0",
-    "@xmtp/react-native-sdk": "1.28.0-beta.7",
+    "@xmtp/react-native-sdk": "1.28.0-beta.10",
     "buffer": "^6.0.3",
     "ethers": "^6.9.2",
     "expo": ">=50.0.0-0 <51.0.0",
