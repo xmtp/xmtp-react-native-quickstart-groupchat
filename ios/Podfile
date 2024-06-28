@@ -18,7 +18,9 @@ prepare_react_native_project!
 #   dependencies: {
 #     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
 # ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+flipper_config = FlipperConfiguration.disabled
+
+
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -29,6 +31,11 @@ end
 target 'xmtprn' do
   use_expo_modules!
   post_integrate do |installer|
+    begin
+      expo_patch_react_imports!(installer)
+    rescue => e
+      Pod::UI.warn e
+    end
     begin
       expo_patch_react_imports!(installer)
     rescue => e
@@ -48,10 +55,6 @@ target 'xmtprn' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'xmtprnTests' do
-    inherit! :complete
-    # Pods for testing
-  end
 
   post_install do |installer|
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
