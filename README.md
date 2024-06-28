@@ -1,8 +1,12 @@
-# Group chat tutorial with React Native
+# ARCHIVED: Group chat tutorial with React Native
 
-![xmtp](https://github.com/xmtp/xmtp-quickstart-reactjs/assets/1447073/3f2979ec-4d13-4c3d-bf20-deab3b2ffaa1)
+![Status](https://img.shields.io/badge/Project_Status-Archived-lightgrey)
 
-This tutorial will guide you through implementing group chat functionality in your XMTP inbox, covering creation, message sending, streaming, and member management.
+> **Important**: This tutorial has been archived. For help with building group chat, use the `xmtp-react-native` [example app](https://github.com/xmtp/xmtp-react-native/tree/main/example) instead.
+
+---
+
+This **archived** tutorial will guide you through implementing group chat functionality in your XMTP inbox, covering creation, message sending, streaming, and member management.
 
 <details>
 <summary>
